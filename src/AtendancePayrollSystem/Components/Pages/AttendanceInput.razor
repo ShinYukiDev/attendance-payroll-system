@@ -1,0 +1,89 @@
+﻿@page "/attendance-input"
+@inherits AttendanceInputBase
+@rendermode InteractiveServer
+
+<PageTitle>勤怠入力</PageTitle>
+
+<h1>勤怠入力</h1>
+
+@if (!string.IsNullOrWhiteSpace(StatusMessage))
+{
+    <div class="alert @StatusAlertCss" role="alert">@StatusMessage</div>
+}
+
+<EditForm Model="InputModel" OnValidSubmit="HandleValidSubmitAsync">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row g-3 mb-3">
+        <div class="col-md-2">
+            <label class="form-label">社員ID</label>
+            <InputText class="form-control" @bind-Value="InputModel.EmployeeId" />
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">勤務日</label>
+            <InputDate TValue="DateOnly" class="form-control" @bind-Value="InputModel.WorkDate" />
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">出勤時刻</label>
+            <InputText class="form-control" @bind-Value="InputModel.StartTimeText" />
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">退勤時刻</label>
+            <InputText class="form-control" @bind-Value="InputModel.EndTimeText" />
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">休憩時間(分)</label>
+            <InputNumber class="form-control" @bind-Value="InputModel.BreakMinutes" />
+        </div>
+    </div>
+
+    <div class="d-flex gap-2 mb-4">
+        <button class="btn btn-primary" type="submit">@(IsEditMode ? "更新" : "登録")</button>
+        @if (IsEditMode)
+        {
+            <button class="btn btn-outline-secondary" type="button" @onclick="CancelEdit">編集キャンセル</button>
+        }
+        <button class="btn btn-outline-dark" type="button" @onclick="ReloadAsync">再読込</button>
+    </div>
+</EditForm>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>社員ID</th>
+            <th>勤務日</th>
+            <th>出勤時刻</th>
+            <th>退勤時刻</th>
+            <th>休憩時間(分)</th>
+            <th>実働時間</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Items.Count == 0)
+        {
+            <tr>
+                <td colspan="7">データがありません。</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in Items)
+            {
+                <tr>
+                    <td>@item.EmployeeId</td>
+                    <td>@item.WorkDate.ToString("yyyy-MM-dd")</td>
+                    <td>@item.StartTime.ToString("HH:mm")</td>
+                    <td>@item.EndTime.ToString("HH:mm")</td>
+                    <td>@item.BreakMinutes</td>
+                    <td>@FormatWorkMinutes(item.WorkMinutes)</td>
+                    <td class="d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-primary" @onclick="() => StartEdit(item)">編集</button>
+                        <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteAsync(item)">削除</button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

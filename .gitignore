@@ -26,6 +26,8 @@ artifacts/
 *.*~
 project.lock.json
 .DS_Store
+Thumbs.db
+*.tmp
 
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt

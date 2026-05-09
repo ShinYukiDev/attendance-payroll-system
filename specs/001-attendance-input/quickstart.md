@@ -24,6 +24,9 @@ dotnet test tests/AtendancePayrollSystem.Tests/AtendancePayrollSystem.Tests.cspr
 dotnet run --project src/AtendancePayrollSystem/AtendancePayrollSystem.csproj
 ```
 
+- ブラウザで `https://localhost:xxxx/attendance-input` を開く（ポートは起動ログに従う）
+- 左メニューの「勤怠入力」から遷移しても同じ画面を表示できる
+
 ## 5. 勤怠入力機能の手動確認
 
 ### 一覧表示
@@ -59,6 +62,7 @@ dotnet run --project src/AtendancePayrollSystem/AtendancePayrollSystem.csproj
 ### 監査ログ
 
 - 登録・更新・削除で監査ログが生成される。
+- 競合時（トークン不一致）に `CONFLICT_REJECTED` が監査ログへ記録される。
 
 ## 6. ユーザー受け入れテスト（SC-004）
 

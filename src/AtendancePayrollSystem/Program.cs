@@ -1,4 +1,10 @@
 using AtendancePayrollSystem.Components;
+using AtendancePayrollSystem.Application.Queries;
+using AtendancePayrollSystem.Application.Services;
+using AtendancePayrollSystem.Domain.Services;
+using AtendancePayrollSystem.Infrastructure;
+using AtendancePayrollSystem.Infrastructure.Jobs;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +12,27 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.Configure<AttendanceAuditOptions>(
+    builder.Configuration.GetSection("AttendanceAudit"));
+
+builder.Services.AddDbContext<AttendanceDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("AttendanceDb")));
+
+builder.Services.AddScoped<AttendanceValidationService>();
+builder.Services.AddScoped<AttendanceAuditService>();
+builder.Services.AddScoped<AttendanceCreateService>();
+builder.Services.AddScoped<AttendanceUpdateService>();
+builder.Services.AddScoped<AttendanceDeleteService>();
+builder.Services.AddScoped<AttendanceListQueryService>();
+builder.Services.AddHostedService<AuditLogRetentionService>();
+
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AttendanceDbContext>();
+    dbContext.Database.EnsureCreated();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
