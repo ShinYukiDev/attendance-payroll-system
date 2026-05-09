@@ -1,8 +1,8 @@
 <!--
 Sync Impact Report
-- Version change: 1.0.0 -> 1.1.0 (MINOR: Technical stack requirements added, test strategy section added)
+- Version change: 1.1.0 -> 1.2.0 (MINOR: Standard .NET version updated)
 - Modified sections:
-	- 技術・品質基準 -> 詳細化（.NET8、SQLite、EF Core、三層分離、推測禁止を明記）
+  - 技術・品質基準 -> 標準ランタイムを .NET 10 に更新
 	- Governance -> 推測禁止・仕様駆動の強調
 - Added sections:
 	- テスト・検証戦略（xUnit、ユニットテストのみ、I/E2E はマニュアル）
@@ -49,7 +49,7 @@ Sync Impact Report
 
 ### スタック要件
 
-- **言語・フレームワーク**: C# + .NET 8 を標準とする。Blazor による既存 UI 構成に整合すること。
+- **言語・フレームワーク**: C# + .NET 10 を標準とする。Blazor による既存 UI 構成に整合すること。
 - **データベース**: SQLite を採用。ファイルベースの単一ファイル DB のため、デプロイメント・バックアップが簡潔となる。
 - **ORM**: EntityFrameworkCore を使用し、マイグレーション・クエリの一貫性を確保する。
 - **既存構造の尊重**: 現在の `src/AtendancePayrollSystem/`、`tests/AtendancePayrollSystem.Tests/` ディレクトリ構成を維持し、新規プロジェクト追加は禁止。
@@ -116,4 +116,4 @@ Sync Impact Report
   - 機微情報保護（原則 IV）
   - 最小差分・推測禁止（原則 V、技術基準）
 
-**Version**: 1.1.0 | **Ratified**: 2026-05-09 | **Last Amended**: 2026-05-09
+**Version**: 1.2.0 | **Ratified**: 2026-05-09 | **Last Amended**: 2026-05-09
