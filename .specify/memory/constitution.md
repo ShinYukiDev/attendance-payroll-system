@@ -1,50 +1,119 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+- Version change: 1.0.0 -> 1.1.0 (MINOR: Technical stack requirements added, test strategy section added)
+- Modified sections:
+	- 技術・品質基準 -> 詳細化（.NET8、SQLite、EF Core、三層分離、推測禁止を明記）
+	- Governance -> 推測禁止・仕様駆動の強調
+- Added sections:
+	- テスト・検証戦略（xUnit、ユニットテストのみ、I/E2E はマニュアル）
+- Removed sections:
+	- なし
+- Templates requiring updates:
+	- ✅ .specify/templates/plan-template.md
+	- ✅ .specify/templates/spec-template.md
+	- ✅ .specify/templates/tasks-template.md
+- Deferred TODOs:
+	- なし
+-->
+
+# attendance-payroll-system 憲章
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. 日本語ファーストの成果物
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+本プロジェクトの仕様書、設計書、タスク、レビューコメント、運用手順は日本語で記述しなければならない。
+英語の固有名詞や API 名は必要時のみ併記する。理由: 認識齟齬を減らし、チーム内の意思決定速度を維持するため。
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. 仕様駆動・段階的実装
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+実装は `spec.md`、`plan.md`、`tasks.md` による段階的合意を経て進めなければならない。
+要求未確定のまま実装を開始してはならない。理由: 要件逸脱と手戻りコストを最小化するため。
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### III. テスト先行の品質ゲート（非交渉）
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+機能追加・修正では、変更影響に応じたテストを先に定義し、失敗を確認した後に実装することを原則とする。
+最低でも回帰防止テストを含め、CI で成功しない変更は統合してはならない。理由: 品質低下の早期検知と再発防止のため。
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### IV. セキュリティと個人情報保護
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+勤怠・給与データは機微情報として扱い、最小権限・入力検証・機密情報非露出を必須とする。
+ログやエラーメッセージに個人情報や秘密情報を出力してはならない。理由: 法令順守と信頼維持のため。
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. 追跡可能性と最小差分
+
+すべての変更は要件・タスク・コミットに追跡可能でなければならず、差分は目的達成に必要最小限でなければならない。
+無関係なリファクタリングやフォーマット変更を同一変更に混在させてはならない。理由: レビュー効率と障害切り分け性を高めるため。
+
+## 技術・品質基準
+
+### スタック要件
+
+- **言語・フレームワーク**: C# + .NET 8 を標準とする。Blazor による既存 UI 構成に整合すること。
+- **データベース**: SQLite を採用。ファイルベースの単一ファイル DB のため、デプロイメント・バックアップが簡潔となる。
+- **ORM**: EntityFrameworkCore を使用し、マイグレーション・クエリの一貫性を確保する。
+- **既存構造の尊重**: 現在の `src/AtendancePayrollSystem/`、`tests/AtendancePayrollSystem.Tests/` ディレクトリ構成を維持し、新規プロジェクト追加は禁止。
+
+### アーキテクチャ・保守性基準
+
+- **三層分離**: Presentation Layer（Blazor Components）、Application Layer（業務ロジック・サービス）、Data Layer（EF Core・リポジトリ）の役割分離を厳守。
+- **推測による実装を禁止**: 仕様書に記載されていない要件の自動補完や推測による実装は禁止。疑問点は `spec.md` で明確化してから着手すること。
+- **可読性・保守性優先**: パフォーマンス最適化や複雑な設計パターンは、要件で明示されない限り、わかりやすいコード設計を優先する。
+- **破壊的変更の文書化**: 公開 API や設定値の破壊的変更は、影響範囲・移行手順・代替策を文書化しなければならない。
+- **監査性・記録保持**: 主要な業務イベント（打刻、締め処理、給与計算）には検証可能な記録を残すこと。ログには個人情報を露出させないこと。
+
+## テスト・検証戦略
+
+- **ユニットテスト**: xUnit フレームワークを使用。`tests/AtendancePayrollSystem.Tests/` に配置し、単一責任原則に従ったテストを先行定義する。
+- **テスト先行の適用範囲**: 機能追加・修正時に影響を受けるロジックに対して、テストを先に定義し失敗を確認してから実装する。
+- **統合テスト・E2E テスト**: これらはマニュアルテスト（人による）のため、テストコード不要。人がテストするためのテスト仕様書兼成績書を用意する。
+- **テスト失敗時の統合禁止**: CI で成功しない変更（ユニットテスト失敗を含む）は統合してはならない。
+
+## 開発プロセスとレビュー基準
+
+- すべての作業は `tasks.md` のタスク単位で実施し、完了条件を明示する。
+- Pull Request では、要件適合・テスト結果・セキュリティ観点・ドキュメント更新の有無を確認する。
+- レビューで以下を確認すること:
+  - 実装が `spec.md` の要件に準拠しているか
+  - ユニットテストが先行定義・失敗確認済みか
+  - 推測補完や無関係な改修が含まれていないか
+  - 個人情報が露出していないか
+- レビューで憲章違反が確認された場合、修正または憲章改訂が完了するまでマージしてはならない。
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+本憲章は本リポジトリの開発実務における最上位規範とし、他の運用文書と矛盾する場合は本憲章を優先する。
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+### 推測禁止と仕様駆動の厳格化
+
+推測による実装は原則禁止。疑問点・不明確な要件は:
+
+- `spec.md` で具体的に定義する
+- レビューコメントで指摘する
+- PR マージ前に仕様合意を完了させる
+
+これにより、手戻り・不具合・メンテナンスコスト増加を最小化する。
+
+### 改訂手続き
+
+- 改訂提案は変更理由、影響範囲、関連テンプレートの更新計画を含める。
+- レビュー合意後に憲章本文と依存テンプレートを同一変更で更新する。
+
+### バージョン方針（SemVer）
+
+- MAJOR: 既存原則の破壊的変更、原則削除、運用互換性を失う統治変更。
+- MINOR: 新規セクション/原則追加、必須ルール実質拡張、技術スタック変更。
+- PATCH: 意味変更を伴わない表現改善、誤記修正、明確化。
+
+### コンプライアンスレビュー
+
+- `speckit.plan` 実行時に Constitution Check で遵守確認を行う。
+- `speckit.tasks` と PR レビューで、原則 I〜V および技術・品質基準の充足を確認する。
+- 特に以下を確認:
+  - 日本語での成果物記述（原則 I）
+  - 仕様駆動による段階的実装（原則 II）
+  - テスト先行定義（原則 III、xUnit 使用）
+  - 機微情報保護（原則 IV）
+  - 最小差分・推測禁止（原則 V、技術基準）
+
+**Version**: 1.1.0 | **Ratified**: 2026-05-09 | **Last Amended**: 2026-05-09
