@@ -1,0 +1,48 @@
+﻿# Build outputs
+bin/
+obj/
+
+# Visual Studio / VS Code
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vscode/
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Rider
+.idea/
+
+# .NET
+*.swp
+*.*~
+project.lock.json
+.DS_Store
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# User-specific files
+*.rsuser
+*.userprefs
+
+# Publish output
+publish/
+
+# Logs
+*.log
+logs/
+
+# Environment / secrets
+appsettings.*.local.json
+*.env
+.env
+secrets.json
