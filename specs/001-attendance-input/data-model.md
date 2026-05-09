@@ -15,19 +15,24 @@
   - Validation: 必須
 - StartTime: TimeOnly
   - Validation: 必須
+  - Format: HH:mm のみ受け付け（秒は 00 に固定）
 - EndTime: TimeOnly
   - Validation: 必須、StartTime より後
+  - Format: HH:mm のみ受け付け（秒は 00 に固定）
 - BreakMinutes: int
   - Validation: 0以上、総勤務分未満
 - WorkMinutes: int
   - Derived: (EndTime - StartTime) - BreakMinutes
   - Validation: 1以上
+  - Display Format: HH:mm (例: 570分 = 9:30)
 - ConcurrencyToken: int
   - Purpose: 楽観ロック用
 - CreatedAtUtc: DateTime
 - CreatedBy: string?
+  - v1 設定値: "SYSTEM" 固定（認証なし）
 - UpdatedAtUtc: DateTime
 - UpdatedBy: string?
+  - v1 設定値: "SYSTEM" 固定（認証なし）
 
 ### Relationships
 
@@ -54,7 +59,8 @@
 - ActorId: string?
 - TargetRecordId: Guid
 - TargetEmployeeIdMasked: string
-  - Rule: 生値を保存せず、最低限の識別情報のみ保持
+  - Rule: マスキング: 先頭 2 桁 + 末尾 1 桁 (例: 1234567 → 12_7)
+  - Purpose: 追跡可能性を保持しながら PII 最小化
 - TargetWorkDate: DateOnly
 - ChangedFields: string
   - Rule: カンマ区切りまたは JSON で項目名のみ保持

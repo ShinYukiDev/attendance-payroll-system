@@ -19,6 +19,14 @@
 **Constraints**: 1勤務日は日跨ぎなし、社員IDは半角数字7桁固定、同一社員ID+勤務日一意、競合時は保存拒否  
 **Scale/Scope**: v1 は勤怠入力画面のみ（残業確認・給与確認は対象外）
 
+**Audit Field Population (v1 without Authentication)**:
+- FR-011 により認証・認可は実装しない前提とする
+- そのため、data-model の CreatedBy / UpdatedBy / ActorId は以下の方針で実装する：
+  - `ActorId`: null または "SYSTEM" 固定（認証情報なし）
+  - `CreatedBy`: "SYSTEM" 固定
+  - `UpdatedBy`: "SYSTEM" 固定
+- 将来 v2 で認証追加時には、これらのフィールドを認証済みユーザー ID で置き換える設計とする
+
 ## Constitution Check
 
 _GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._

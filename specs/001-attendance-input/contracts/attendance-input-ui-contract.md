@@ -67,7 +67,7 @@
 ## Audit Contract
 
 - CREATE / UPDATE / DELETE の成功時は監査ログを1件以上生成する。
-- CONFLICT_REJECTED は失敗として監査ログ記録してよい。
+- CONFLICT_REJECTED は失敗として監査ログを記録しなければならない（必須）。
 - 監査ログ保持期間は最低3か月とする。
 
 ## UX Messages
