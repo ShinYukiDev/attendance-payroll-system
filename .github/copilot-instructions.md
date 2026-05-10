@@ -1,3 +1,3 @@
 <!-- SPECKIT START -->
-Current implementation plan: specs/001-attendance-input/plan.md
+Current implementation plan: specs/002-overtime-review-screen/plan.md
 <!-- SPECKIT END -->
