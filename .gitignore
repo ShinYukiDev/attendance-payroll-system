@@ -48,3 +48,8 @@ appsettings.*.local.json
 *.env
 .env
 secrets.json
+
+# SQLite transient files
+*.db-wal
+*.db-shm
+*.db-journal
