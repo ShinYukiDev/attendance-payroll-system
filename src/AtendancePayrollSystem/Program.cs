@@ -24,6 +24,9 @@ builder.Services.AddScoped<AttendanceCreateService>();
 builder.Services.AddScoped<AttendanceUpdateService>();
 builder.Services.AddScoped<AttendanceDeleteService>();
 builder.Services.AddScoped<AttendanceListQueryService>();
+builder.Services.AddScoped<OvertimeCalculationService>();
+builder.Services.AddScoped<OvertimeReviewValidationService>();
+builder.Services.AddScoped<OvertimeReviewQueryService>();
 builder.Services.AddHostedService<AuditLogRetentionService>();
 
 var app = builder.Build();

@@ -1,0 +1,73 @@
+﻿@page "/overtime-review"
+@inherits OvertimeReviewBase
+@rendermode InteractiveServer
+
+<PageTitle>残業確認</PageTitle>
+
+<h1>残業確認</h1>
+
+@if (!string.IsNullOrWhiteSpace(StatusMessage))
+{
+    <div class="alert @StatusAlertCss" role="alert">@StatusMessage</div>
+}
+
+<EditForm Model="SearchModel" OnValidSubmit="SearchAsync">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row g-3 mb-3">
+        <div class="col-md-2">
+            <label class="form-label">社員ID</label>
+            <InputText class="form-control" @bind-Value="SearchModel.EmployeeId" />
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">対象月</label>
+            <InputText class="form-control" @bind-Value="SearchModel.TargetMonth" placeholder="yyyy-MM" />
+        </div>
+    </div>
+
+    <div class="d-flex gap-2 mb-4">
+        <button class="btn btn-primary" type="submit">検索</button>
+    </div>
+</EditForm>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>勤務日</th>
+            <th>実働時間</th>
+            <th>所定労働時間</th>
+            <th>残業時間</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (DailyRows.Count == 0)
+        {
+            <tr>
+                <td colspan="4">データがありません。</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var row in DailyRows)
+            {
+                <tr>
+                    <td>@row.WorkDate.ToString("yyyy-MM-dd")</td>
+                    <td>@FormatMinutes(row.WorkMinutes)</td>
+                    <td>@FormatMinutes(row.StandardMinutes)</td>
+                    <td>@FormatMinutes(row.OvertimeMinutes)</td>
+                </tr>
+            }
+
+            @if (MonthlySummary is not null)
+            {
+                <tr class="table-secondary fw-bold">
+                    <td>月合計</td>
+                    <td>@FormatMinutes(MonthlySummary.TotalWorkMinutes)</td>
+                    <td>@FormatMinutes(MonthlySummary.TotalStandardMinutes)</td>
+                    <td>@FormatMinutes(MonthlySummary.TotalOvertimeMinutes)</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

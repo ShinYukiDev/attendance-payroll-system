@@ -11,8 +11,8 @@
 
 **Purpose**: 残業確認画面の追加先となる UI とテストの土台を用意する
 
-- [ ] T001 `src/AtendancePayrollSystem/Components/Pages/OvertimeReview.razor` と `src/AtendancePayrollSystem/Components/Pages/OvertimeReview.razor.cs` のページ雛形を作成する
-- [ ] T002 [P] `tests/AtendancePayrollSystem.Tests/Application/OvertimeReviewQueryServiceTests.cs` と `tests/AtendancePayrollSystem.Tests/Domain/OvertimeReviewValidationServiceTests.cs` のテストファイルを作成する
+- [x] T001 `src/AtendancePayrollSystem/Components/Pages/OvertimeReview.razor` と `src/AtendancePayrollSystem/Components/Pages/OvertimeReview.razor.cs` のページ雛形を作成する
+- [x] T002 [P] `tests/AtendancePayrollSystem.Tests/Application/OvertimeReviewQueryServiceTests.cs` と `tests/AtendancePayrollSystem.Tests/Domain/OvertimeReviewValidationServiceTests.cs` のテストファイルを作成する
 
 ---
 
@@ -22,12 +22,12 @@
 
 **⚠️ CRITICAL**: このフェーズ完了までユーザーストーリー実装に進まない
 
-- [ ] T003A [P] `tests/AtendancePayrollSystem.Tests/Domain/OvertimeCalculationServiceTests.cs` に残業算出ロジックの失敗テスト（8 時間超過/以下）を先行追加する
-- [ ] T003B [P] `tests/AtendancePayrollSystem.Tests/Domain/OvertimeReviewValidationServiceTests.cs` に検索条件検証ロジックの失敗テスト（未入力/形式不正）を先行追加する
-- [ ] T003 `src/AtendancePayrollSystem/Application/Contracts/OvertimeSearchCriteria.cs`、`src/AtendancePayrollSystem/Application/Contracts/OvertimeReviewDailyRow.cs`、`src/AtendancePayrollSystem/Application/Contracts/OvertimeReviewMonthlySummary.cs`、`src/AtendancePayrollSystem/Application/Contracts/OvertimeReviewResult.cs` を作成する
-- [ ] T004 [P] `src/AtendancePayrollSystem/Domain/Services/OvertimeCalculationService.cs` を作成し、所定 480 分基準の日別残業時間算出と月合計集計ロジックを実装する
-- [ ] T005 [P] `src/AtendancePayrollSystem/Domain/Services/OvertimeReviewValidationService.cs` を作成し、社員ID 7 桁数字検証、対象月必須検証、`yyyy-MM` 形式検証、月範囲変換を実装する
-- [ ] T006 `src/AtendancePayrollSystem/Program.cs` に残業確認用 Query Service / Domain Service の DI 登録を追加する
+- [x] T003A [P] `tests/AtendancePayrollSystem.Tests/Domain/OvertimeCalculationServiceTests.cs` に残業算出ロジックの失敗テスト（8 時間超過/以下）を先行追加する
+- [x] T003B [P] `tests/AtendancePayrollSystem.Tests/Domain/OvertimeReviewValidationServiceTests.cs` に検索条件検証ロジックの失敗テスト（未入力/形式不正）を先行追加する
+- [x] T003 `src/AtendancePayrollSystem/Application/Contracts/OvertimeSearchCriteria.cs`、`src/AtendancePayrollSystem/Application/Contracts/OvertimeReviewDailyRow.cs`、`src/AtendancePayrollSystem/Application/Contracts/OvertimeReviewMonthlySummary.cs`、`src/AtendancePayrollSystem/Application/Contracts/OvertimeReviewResult.cs` を作成する
+- [x] T004 [P] `src/AtendancePayrollSystem/Domain/Services/OvertimeCalculationService.cs` を作成し、所定 480 分基準の日別残業時間算出と月合計集計ロジックを実装する
+- [x] T005 [P] `src/AtendancePayrollSystem/Domain/Services/OvertimeReviewValidationService.cs` を作成し、社員ID 7 桁数字検証、対象月必須検証、`yyyy-MM` 形式検証、月範囲変換を実装する
+- [x] T006 `src/AtendancePayrollSystem/Program.cs` に残業確認用 Query Service / Domain Service の DI 登録を追加する
 
 **Checkpoint**: 検索条件 DTO、計算ロジック、検証ロジック、DI が揃い、各ユーザーストーリーを独立実装できる
 
@@ -41,14 +41,14 @@
 
 ### Tests for User Story 1
 
-- [ ] T007 [P] [US1] `tests/AtendancePayrollSystem.Tests/Application/OvertimeReviewQueryServiceTests.cs` に検索成功時の日別行取得と条件変更後の再検索ケースを追加する
+- [x] T007 [P] [US1] `tests/AtendancePayrollSystem.Tests/Application/OvertimeReviewQueryServiceTests.cs` に検索成功時の日別行取得と条件変更後の再検索ケースを追加する
 
 ### Implementation for User Story 1
 
-- [ ] T008 [US1] `src/AtendancePayrollSystem/Application/Queries/OvertimeReviewQueryService.cs` を作成し、社員IDと対象月で勤怠を取得して日別行と月合計行を返す処理を実装する
-- [ ] T009 [US1] `src/AtendancePayrollSystem/Components/Pages/OvertimeReview.razor` に社員ID、対象月、検索ボタン、日別一覧、月合計行を表示する UI を実装する
-- [ ] T010 [US1] `src/AtendancePayrollSystem/Components/Pages/OvertimeReview.razor.cs` に検索実行、再検索、検索結果置換の状態管理を実装する
-- [ ] T011 [US1] `src/AtendancePayrollSystem/Components/Layout/NavMenu.razor` に `/overtime-review` への導線を追加する
+- [x] T008 [US1] `src/AtendancePayrollSystem/Application/Queries/OvertimeReviewQueryService.cs` を作成し、社員IDと対象月で勤怠を取得して日別行と月合計行を返す処理を実装する
+- [x] T009 [US1] `src/AtendancePayrollSystem/Components/Pages/OvertimeReview.razor` に社員ID、対象月、検索ボタン、日別一覧、月合計行を表示する UI を実装する
+- [x] T010 [US1] `src/AtendancePayrollSystem/Components/Pages/OvertimeReview.razor.cs` に検索実行、再検索、検索結果置換の状態管理を実装する
+- [x] T011 [US1] `src/AtendancePayrollSystem/Components/Layout/NavMenu.razor` に `/overtime-review` への導線を追加する
 
 **Checkpoint**: US1 単体で検索から一覧表示まで動作し、MVP として確認できる
 
@@ -62,13 +62,13 @@
 
 ### Tests for User Story 2
 
-- [ ] T012 [US2] `tests/AtendancePayrollSystem.Tests/Domain/OvertimeCalculationServiceTests.cs` に集計観点（合計値整合、表示用丸め/整形前提）のテストを追加する
-- [ ] T013 [US2] `tests/AtendancePayrollSystem.Tests/Application/OvertimeReviewQueryServiceTests.cs` に月合計行の実働・所定・残業集計テストを追加する
+- [x] T012 [US2] `tests/AtendancePayrollSystem.Tests/Domain/OvertimeCalculationServiceTests.cs` に集計観点（合計値整合、表示用丸め/整形前提）のテストを追加する
+- [x] T013 [US2] `tests/AtendancePayrollSystem.Tests/Application/OvertimeReviewQueryServiceTests.cs` に月合計行の実働・所定・残業集計テストを追加する
 
 ### Implementation for User Story 2
 
-- [ ] T014 [US2] `src/AtendancePayrollSystem/Application/Queries/OvertimeReviewQueryService.cs` を更新し、`OvertimeCalculationService` を用いた日別残業時間算出と月合計組み立てを完成させる
-- [ ] T015 [US2] `src/AtendancePayrollSystem/Components/Pages/OvertimeReview.razor` に `H:mm` 表示整形と月合計行の実働・所定・残業表示を仕様どおりに反映する
+- [x] T014 [US2] `src/AtendancePayrollSystem/Application/Queries/OvertimeReviewQueryService.cs` を更新し、`OvertimeCalculationService` を用いた日別残業時間算出と月合計組み立てを完成させる
+- [x] T015 [US2] `src/AtendancePayrollSystem/Components/Pages/OvertimeReview.razor` に `H:mm` 表示整形と月合計行の実働・所定・残業表示を仕様どおりに反映する
 
 **Checkpoint**: US2 単体で残業計算と月合計集計の正しさを回帰テスト込みで検証できる
 
@@ -82,14 +82,14 @@
 
 ### Tests for User Story 3
 
-- [ ] T016 [US3] `tests/AtendancePayrollSystem.Tests/Domain/OvertimeReviewValidationServiceTests.cs` に利用者向けメッセージ判別（不足項目/形式不正）のテストを追加する
-- [ ] T017 [US3] `tests/AtendancePayrollSystem.Tests/Application/OvertimeReviewQueryServiceTests.cs` に検索結果 0 件時の空結果テストを追加する
+- [x] T016 [US3] `tests/AtendancePayrollSystem.Tests/Domain/OvertimeReviewValidationServiceTests.cs` に利用者向けメッセージ判別（不足項目/形式不正）のテストを追加する
+- [x] T017 [US3] `tests/AtendancePayrollSystem.Tests/Application/OvertimeReviewQueryServiceTests.cs` に検索結果 0 件時の空結果テストを追加する
 
 ### Implementation for User Story 3
 
-- [ ] T018 [US3] `src/AtendancePayrollSystem/Components/Pages/OvertimeReview.razor.cs` に検証エラー、結果なし、取得失敗の状態分岐と個人情報を含めないログ出力を実装する
-- [ ] T019 [US3] `src/AtendancePayrollSystem/Components/Pages/OvertimeReview.razor` に検証メッセージ、結果なしメッセージ、0 件時の月合計非表示を実装する
-- [ ] T020 [US3] `src/AtendancePayrollSystem/Application/Queries/OvertimeReviewQueryService.cs` に `OvertimeReviewValidationService` 連携と安全な失敗応答を追加する
+- [x] T018 [US3] `src/AtendancePayrollSystem/Components/Pages/OvertimeReview.razor.cs` に検証エラー、結果なし、取得失敗の状態分岐と個人情報を含めないログ出力を実装する
+- [x] T019 [US3] `src/AtendancePayrollSystem/Components/Pages/OvertimeReview.razor` に検証メッセージ、結果なしメッセージ、0 件時の月合計非表示を実装する
+- [x] T020 [US3] `src/AtendancePayrollSystem/Application/Queries/OvertimeReviewQueryService.cs` に `OvertimeReviewValidationService` 連携と安全な失敗応答を追加する
 
 **Checkpoint**: US3 単体で条件不備とデータ未存在を判別でき、取得失敗時も機微情報を露出しない
 
@@ -99,12 +99,12 @@
 
 **Purpose**: 受け入れ性、追跡性、横断品質を仕上げる
 
-- [ ] T021 [P] `specs/002-overtime-review-screen/quickstart.md` を実装後の起動手順、確認観点、ログ非露出確認結果に合わせて更新する
-- [ ] T022 `specs/002-overtime-review-screen/checklists/requirements.md` に FR-001 から FR-009 と DG-001 から DG-004 の実装・テスト追跡を記録する
-- [ ] T023 `tests/AtendancePayrollSystem.Tests/` を対象に `dotnet test` を実行し、失敗時は該当実装を修正する
-- [ ] T024 `specs/002-overtime-review-screen/tasks.md` の完了状況と成果物を照合し、日本語成果物、最小差分、機微情報非露出、要件追跡可能性の最終確認を行う
-- [ ] T025 `specs/002-overtime-review-screen/quickstart.md` に SC-001（3分以内表示）の手動計測手順と合否判定基準を追記し、検証結果を記録する
-- [ ] T026 `specs/002-overtime-review-screen/checklists/requirements.md` に DG-003 のアクセス制御前提（既存 v1 非認証継承・新規認証追加なし）の確認項目を追加する
+- [x] T021 [P] `specs/002-overtime-review-screen/quickstart.md` を実装後の起動手順、確認観点、ログ非露出確認結果に合わせて更新する
+- [x] T022 `specs/002-overtime-review-screen/checklists/requirements.md` に FR-001 から FR-009 と DG-001 から DG-004 の実装・テスト追跡を記録する
+- [x] T023 `tests/AtendancePayrollSystem.Tests/` を対象に `dotnet test` を実行し、失敗時は該当実装を修正する
+- [x] T024 `specs/002-overtime-review-screen/tasks.md` の完了状況と成果物を照合し、日本語成果物、最小差分、機微情報非露出、要件追跡可能性の最終確認を行う
+- [x] T025 `specs/002-overtime-review-screen/quickstart.md` に SC-001（3分以内表示）の手動計測手順と合否判定基準を追記し、検証結果を記録する
+- [x] T026 `specs/002-overtime-review-screen/checklists/requirements.md` に DG-003 のアクセス制御前提（既存 v1 非認証継承・新規認証追加なし）の確認項目を追加する
 
 ---
 

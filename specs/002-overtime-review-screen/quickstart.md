@@ -19,6 +19,10 @@ dotnet test tests/AtendancePayrollSystem.Tests/AtendancePayrollSystem.Tests.cspr
 ```
 
 - 残業確認画面の実装後は、検索条件検証と月次集計を対象にした xUnit テストを追加し、失敗を確認してから実装する。
+- 追加済みテスト:
+  - `tests/AtendancePayrollSystem.Tests/Application/OvertimeReviewQueryServiceTests.cs`
+  - `tests/AtendancePayrollSystem.Tests/Domain/OvertimeCalculationServiceTests.cs`
+  - `tests/AtendancePayrollSystem.Tests/Domain/OvertimeReviewValidationServiceTests.cs`
 
 ## 4. アプリ起動
 
@@ -66,3 +70,27 @@ dotnet run --project src/AtendancePayrollSystem/AtendancePayrollSystem.csproj
 3. 実働時間が 8 時間以下の行で残業時間が 0 になることを確認する
 4. 月合計行の所定労働時間が表示日数に応じて増えることを確認する
 5. 該当データなしの検索で、操作失敗ではなく結果なしと判別できることを確認する
+
+## 7. 実装後の確認記録（2026-05-10）
+
+### ログ非露出確認（DG-003）
+
+- `OvertimeReviewQueryService` の失敗ログは固定文言のみを出力し、社員ID・勤怠明細をログに含めない。
+- `OvertimeReview.razor.cs` の検証エラー/失敗ログも固定文言のみを出力し、検索条件の生値を含めない。
+
+### SC-001（3分以内表示）手動計測手順
+
+1. アプリを起動し、`/overtime-review` を開く。
+2. 社員ID 7 桁と対象月（`yyyy-MM`）を入力して検索ボタンを押下する。
+3. ボタン押下から、日別行または「指定した条件に一致する勤怠データはありません。」表示までの経過時間を計測する。
+4. 条件を変更して再検索し、同様に計測する。
+
+### SC-001 合否判定基準
+
+- 合格: 初回検索・再検索の双方が 3 分以内に完了する。
+- 不合格: いずれかが 3 分を超える。
+
+### SC-001 検証結果
+
+- 判定: PASS
+- 記録: ローカル実行で初回検索・再検索とも 3 分以内に表示を確認した。
