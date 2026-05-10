@@ -22,6 +22,8 @@
 
 **⚠️ CRITICAL**: このフェーズ完了までユーザーストーリー実装に進まない
 
+- [ ] T003A [P] `tests/AtendancePayrollSystem.Tests/Domain/OvertimeCalculationServiceTests.cs` に残業算出ロジックの失敗テスト（8 時間超過/以下）を先行追加する
+- [ ] T003B [P] `tests/AtendancePayrollSystem.Tests/Domain/OvertimeReviewValidationServiceTests.cs` に検索条件検証ロジックの失敗テスト（未入力/形式不正）を先行追加する
 - [ ] T003 `src/AtendancePayrollSystem/Application/Contracts/OvertimeSearchCriteria.cs`、`src/AtendancePayrollSystem/Application/Contracts/OvertimeReviewDailyRow.cs`、`src/AtendancePayrollSystem/Application/Contracts/OvertimeReviewMonthlySummary.cs`、`src/AtendancePayrollSystem/Application/Contracts/OvertimeReviewResult.cs` を作成する
 - [ ] T004 [P] `src/AtendancePayrollSystem/Domain/Services/OvertimeCalculationService.cs` を作成し、所定 480 分基準の日別残業時間算出と月合計集計ロジックを実装する
 - [ ] T005 [P] `src/AtendancePayrollSystem/Domain/Services/OvertimeReviewValidationService.cs` を作成し、社員ID 7 桁数字検証、対象月必須検証、`yyyy-MM` 形式検証、月範囲変換を実装する
@@ -60,7 +62,7 @@
 
 ### Tests for User Story 2
 
-- [ ] T012 [P] [US2] `tests/AtendancePayrollSystem.Tests/Domain/OvertimeCalculationServiceTests.cs` に 8 時間超過ケースと 8 時間以下ケースの残業算出テストを追加する
+- [ ] T012 [US2] `tests/AtendancePayrollSystem.Tests/Domain/OvertimeCalculationServiceTests.cs` に集計観点（合計値整合、表示用丸め/整形前提）のテストを追加する
 - [ ] T013 [US2] `tests/AtendancePayrollSystem.Tests/Application/OvertimeReviewQueryServiceTests.cs` に月合計行の実働・所定・残業集計テストを追加する
 
 ### Implementation for User Story 2
@@ -80,7 +82,7 @@
 
 ### Tests for User Story 3
 
-- [ ] T016 [P] [US3] `tests/AtendancePayrollSystem.Tests/Domain/OvertimeReviewValidationServiceTests.cs` に社員ID・対象月の未入力と形式不正の検証テストを追加する
+- [ ] T016 [US3] `tests/AtendancePayrollSystem.Tests/Domain/OvertimeReviewValidationServiceTests.cs` に利用者向けメッセージ判別（不足項目/形式不正）のテストを追加する
 - [ ] T017 [US3] `tests/AtendancePayrollSystem.Tests/Application/OvertimeReviewQueryServiceTests.cs` に検索結果 0 件時の空結果テストを追加する
 
 ### Implementation for User Story 3
@@ -101,6 +103,8 @@
 - [ ] T022 `specs/002-overtime-review-screen/checklists/requirements.md` に FR-001 から FR-009 と DG-001 から DG-004 の実装・テスト追跡を記録する
 - [ ] T023 `tests/AtendancePayrollSystem.Tests/` を対象に `dotnet test` を実行し、失敗時は該当実装を修正する
 - [ ] T024 `specs/002-overtime-review-screen/tasks.md` の完了状況と成果物を照合し、日本語成果物、最小差分、機微情報非露出、要件追跡可能性の最終確認を行う
+- [ ] T025 `specs/002-overtime-review-screen/quickstart.md` に SC-001（3分以内表示）の手動計測手順と合否判定基準を追記し、検証結果を記録する
+- [ ] T026 `specs/002-overtime-review-screen/checklists/requirements.md` に DG-003 のアクセス制御前提（既存 v1 非認証継承・新規認証追加なし）の確認項目を追加する
 
 ---
 
@@ -129,9 +133,10 @@
 
 - Phase 1: T002 は T001 と並行で着手可能
 - Phase 2: T004 と T005 は並列可能。完了後に T006 を進める
+- Phase 2: T003A/T003B を先に失敗確認し、その後に T004/T005 を進める
 - US1: T007 は UI 実装開始前に単独で進められる
 - US2: T012 と T013 は別ファイルではないため順次進める。T012 の後に T014 を着手すると差分が安定する
-- US3: T016 は T017 と別観点で進められるが、`OvertimeReviewQueryServiceTests.cs` 競合を避けるため担当を分ける場合は順番を決める
+- US3: T016 と T017 は別ファイルではないため順次進める。T016 の後に T018 を着手する
 - Polish: T021 は T022 と並列可能
 
 ## Parallel Example: User Story 1
@@ -162,3 +167,4 @@ Task: "T009 [US1] 残業確認画面の検索フォームと一覧 UI 実装"
 - `[US1]` から `[US3]` は `spec.md` のユーザーストーリーとの追跡ラベルである
 - 新規永続化テーブルや CRUD の追加は行わず、既存勤怠データ参照に限定する
 - ログとエラーメッセージには社員IDや勤怠明細を含めない
+- DG-003 のアクセス制御は「既存 v1 非認証前提を継承し、新規認証・認可機能を追加しない」方針で確認する
