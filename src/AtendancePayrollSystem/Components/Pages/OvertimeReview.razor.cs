@@ -28,7 +28,7 @@ public class OvertimeReviewBase : ComponentBase
         var criteria = new OvertimeSearchCriteria
         {
             EmployeeId = SearchModel.EmployeeId?.Trim() ?? string.Empty,
-            TargetMonth = SearchModel.TargetMonth?.Trim() ?? string.Empty
+            TargetMonth = SearchModel.TargetMonth.ToString("yyyy-MM")
         };
 
         var result = await QueryService.SearchAsync(criteria);
@@ -86,7 +86,6 @@ public class OvertimeReviewBase : ComponentBase
         [RegularExpression("^[0-9]{7}$", ErrorMessage = "社員IDは半角数字7桁で入力してください。")]
         public string EmployeeId { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "対象月を入力してください。")]
-        public string TargetMonth { get; set; } = string.Empty;
+        public DateTime TargetMonth { get; set; } = new(DateTime.Today.Year, DateTime.Today.Month, 1);
     }
 }
