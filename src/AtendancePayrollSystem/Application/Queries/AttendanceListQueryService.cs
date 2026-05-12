@@ -10,8 +10,8 @@ public sealed class AttendanceListQueryService(AttendanceDbContext dbContext)
     {
         return await dbContext.AttendanceRecords
             .AsNoTracking()
-            .OrderByDescending(x => x.WorkDate)
-            .ThenBy(x => x.EmployeeId)
+            .OrderBy(x => x.EmployeeId)
+            .ThenBy(x => x.WorkDate)
             .Select(x => new AttendanceListItem
             {
                 AttendanceRecordId = x.AttendanceRecordId,
